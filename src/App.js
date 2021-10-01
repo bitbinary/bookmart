@@ -10,12 +10,13 @@ import Login from './pages/Login/Login';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Dashboard from './pages/Dashboard/Dashboard';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth } from '@firebase/auth';
 import { auth } from './configs/firebase';
 import PageLoading from './utils/shared/PageLoading';
+import Navbar from './utils/shared/Navbar';
 function App() {
   return (
     <div className="app">
+      <Navbar />
       <Router>
         <Switch>
           <Route exact path="/app" component={Protected} />
@@ -27,10 +28,7 @@ function App() {
 }
 
 const Protected = () => {
-  const [user, loading, error] = useAuthState(auth);
-  // const {
-  //   auth: { emailVerified },
-  // } = user;
+  const [user, loading] = useAuthState(auth);
   if (loading) return <PageLoading />;
   if (!user) return <Redirect to="/" from="/app" />;
   const { emailVerified } = user;
@@ -43,7 +41,7 @@ const Protected = () => {
   );
 };
 const Public = () => {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   return (
     <Route
       render={() => {
@@ -52,10 +50,6 @@ const Public = () => {
       }}
     />
   );
-};
-
-const ConfirmEmail = () => {
-  return <div>ConfirmEmail</div>;
 };
 
 const PrivateRoutes = ({ emailVerified }) => {

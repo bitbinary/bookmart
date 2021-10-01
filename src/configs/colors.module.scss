@@ -1,0 +1,11 @@
+$color-primary: '#0000ff';
+$color-secondary: '#ffffff';
+$color-text: '#ffffff';
+$color-links: '#ffffff';
+
+:export {
+  color_primary: $color-primary;
+  color_secondary: $color-secondary;
+  color_text: $color-text;
+  color_links: $color-links;
+}

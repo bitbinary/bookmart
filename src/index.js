@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ThemeContext, themes } from './configs/theme';
+import { lightTheme, darkTheme } from './configs/theme';
+import { ThemeContext } from '@mui/styled-engine';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeContext.Provider value={themes}>
+    <ThemeContext.Provider value={lightTheme}>
       <App />
     </ThemeContext.Provider>
   </React.StrictMode>,

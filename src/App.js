@@ -7,7 +7,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Dashboard from './pages/Dashboard/Dashboard';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -60,7 +59,7 @@ const ConfirmEmail = () => {
 };
 
 const PrivateRoutes = ({ emailVerified }) => {
-  if (!emailVerified) return <ConfirmEmail />;
+  // if (!emailVerified) return <ConfirmEmail />;
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
@@ -70,7 +69,6 @@ const PrivateRoutes = ({ emailVerified }) => {
 const PublicRoutes = () => {
   return (
     <Switch>
-      <Route exact path="/register" component={Register} />
       <Route exact path="/reset" component={ResetPassword} />
       <Route path="/" component={Login} />
     </Switch>

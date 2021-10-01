@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  auth,
-  signInWithEmailAndPassword,
-  signInWithGoogle,
-} from '../../configs/firebase';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { auth } from '../../configs/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import './login.css';
+import { Link } from 'react-router-dom';
 import PageLoading from '../../utils/shared/PageLoading';
+import { Box } from '@mui/system';
+import { Grid } from '@mui/material';
+import LoginBox from './LoginBox';
+import { signInWithGoogle } from '../../configs/firebase';
+import RegisterBox from './RegisterBox';
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [user, loading] = useAuthState(auth);
   const history = useHistory();
   useEffect(() => {
@@ -22,39 +22,35 @@ function Login() {
   }, [user, loading, history]);
   if (loading) return <PageLoading />;
   return (
-    <div className="login">
-      <div className="login__container">
-        <input
-          type="text"
-          className="login__textBox"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail Address"
-        />
-        <input
-          type="password"
-          className="login__textBox"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-        />
-        <button
-          className="login__btn"
-          onClick={() => signInWithEmailAndPassword(email, password)}
-        >
-          Login
-        </button>
-        <button className="login__btn login__google" onClick={signInWithGoogle}>
-          Login with Google
-        </button>
-        <div>
+    <Box className="login">
+      <Grid p={2} m={2} flexDirection="column" display="flex">
+        <Grid spacing={2} display="flex">
+          <Grid p={2} item m={2} flexDirection="column" display="flex">
+            <LoginBox />
+          </Grid>
+          <Grid
+            item
+            flexDirection="column"
+            display="flex"
+            p={2}
+            sx={{ backgroundColor: '#cccbcb' }}
+          >
+            <RegisterBox />
+          </Grid>
+        </Grid>
+        <Grid item display="flex" justifyContent="center">
+          <button
+            className="login__btn login__google"
+            onClick={signInWithGoogle}
+          >
+            Login with Google
+          </button>
+        </Grid>
+        <Grid item display="flex" justifyContent="center">
           <Link to="/reset">Forgot Password</Link>
-        </div>
-        <div>
-          Don't have an account? <Link to="/register">Register</Link> now.
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 export default Login;

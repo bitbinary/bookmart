@@ -16,7 +16,7 @@ REACT_APP_FIREBASE_MEASUREMENT_ID = <FIREBASE CONFIG VALUE>
 
 ```
 
-#### Install firebase CLI
+#### Install firebase CLI(Ignore for now)
 
 `npm install -g firebase-tools`
 

@@ -20,7 +20,7 @@ function Login() {
       // maybe trigger a loading screen
       return;
     }
-    if (user) history.replace('/app');
+    if (user) history.replace('/');
   }, [user, loading, history]);
   const handleChange = (event, newValue) => {
     setValue(newValue);

@@ -10,7 +10,7 @@ function ResetPassword() {
   const history = useHistory();
   useEffect(() => {
     if (loading) return;
-    if (user) history.replace('/app');
+    if (user) history.replace('/');
   }, [user, loading, history]);
   return (
     <div className="reset">

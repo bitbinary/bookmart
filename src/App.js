@@ -13,13 +13,13 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './configs/firebase';
 import PageLoading from './utils/shared/PageLoading';
 import Navbar from './utils/shared/Navbar';
+import Book from './pages/Book/Book';
 function App() {
   return (
     <div className="app">
       <Navbar />
       <Router>
         <Switch>
-          <Route exact path="/app" component={Protected} />
           <Route path="/" component={Public} />
         </Switch>
       </Router>
@@ -28,9 +28,8 @@ function App() {
 }
 
 const Protected = () => {
-  const [user, loading] = useAuthState(auth);
-  if (loading) return <PageLoading />;
-  if (!user) return <Redirect to="/" from="/app" />;
+  const [user] = useAuthState(auth);
+  if (!user) return <Redirect to="/" />;
   const { emailVerified } = user;
   return (
     <Route
@@ -42,10 +41,11 @@ const Protected = () => {
 };
 const Public = () => {
   const [user, loading] = useAuthState(auth);
+  if (loading) return <PageLoading />;
   return (
     <Route
       render={() => {
-        if (user && !loading) return <Protected />;
+        if (user) return <Protected />;
         return <PublicRoutes />;
       }}
     />
@@ -56,6 +56,7 @@ const PrivateRoutes = ({ emailVerified }) => {
   // if (!emailVerified) return <ConfirmEmail />;
   return (
     <Switch>
+      <Route path="/book/:id" component={Book} />
       <Route path="/" component={Dashboard} />
     </Switch>
   );

@@ -1,21 +1,18 @@
 import './App.scss';
 import './configs/theme.js';
 import {
-   BrowserRouter as Router,
-   Route,
-   Switch,
-   Redirect,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
 } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Landing from './pages/Landing/Landing';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './configs/firebase';
 import PageLoading from './utils/shared/PageLoading';
 import Navbar from './utils/shared/Navbar';
-import AuthenticatedLanding from './pages/Landing/AuthenticatedLanding';
-import Tables from './AdminPages/Tables';
 import Book from './pages/Book/Book';
 function App() {
   return (
@@ -60,19 +57,16 @@ const PrivateRoutes = ({ emailVerified }) => {
   return (
     <Switch>
       <Route path="/book/:id" component={Book} />
-      <Route path='/logout' component={Dashboard} />
-      <Route path='/tables' component={Tables} />
-      <Route path="/" component={AuthenticatedLanding} />
+      <Route path="/" component={Dashboard} />
     </Switch>
   );
 };
 const PublicRoutes = () => {
-   return (
-      <Switch>
-         <Route exact path='/reset' component={ResetPassword} />
-         <Route path='/login' component={Login} />
-         <Route path='/' component={Landing} />
-      </Switch>
-   );
+  return (
+    <Switch>
+      <Route exact path="/reset" component={ResetPassword} />
+      <Route path="/" component={Login} />
+    </Switch>
+  );
 };
 export default App;

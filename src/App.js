@@ -16,57 +16,55 @@ import PageLoading from './utils/shared/PageLoading';
 import Navbar from './utils/shared/Navbar';
 import AuthenticatedLanding from './pages/Landing/AuthenticatedLanding';
 import Tables from './AdminPages/Tables';
+import Book from './pages/Book/Book';
 function App() {
-   return (
-      <div className='app'>
-         <Navbar />
-         <Router>
-            <Switch>
-               <Route exact path='/logout' component={Protected} />
-
-               <Route exact path='/app' component={Protected} />
-               <Route path='/' component={Public} />
-            </Switch>
-         </Router>
-      </div>
-   );
+  return (
+    <div className="app">
+      <Navbar />
+      <Router>
+        <Switch>
+          <Route path="/" component={Public} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 const Protected = () => {
-   const [user, loading] = useAuthState(auth);
-   if (loading) return <PageLoading />;
-   if (!user) return <Redirect to='/' from='/app' />;
-   const { emailVerified } = user;
-   return (
-      <Route
-         render={() => {
-            return <PrivateRoutes emailVerified={emailVerified} />;
-         }}
-      />
-   );
+  const [user] = useAuthState(auth);
+  if (!user) return <Redirect to="/" />;
+  const { emailVerified } = user;
+  return (
+    <Route
+      render={() => {
+        return <PrivateRoutes emailVerified={emailVerified} />;
+      }}
+    />
+  );
 };
 const Public = () => {
-   const [user, loading] = useAuthState(auth);
-   return (
-      <Route
-         render={() => {
-            if (user && !loading) return <Protected />;
-            return <PublicRoutes />;
-         }}
-      />
-   );
+  const [user, loading] = useAuthState(auth);
+  if (loading) return <PageLoading />;
+  return (
+    <Route
+      render={() => {
+        if (user) return <Protected />;
+        return <PublicRoutes />;
+      }}
+    />
+  );
 };
 
 const PrivateRoutes = ({ emailVerified }) => {
-   // if (!emailVerified) return <ConfirmEmail />;
-   return (
-      <Switch>
-         <Route path='/logout' component={Dashboard} />
-         <Route path='/tables' component={Tables} />
-
-         <Route path='/' component={AuthenticatedLanding} />
-      </Switch>
-   );
+  // if (!emailVerified) return <ConfirmEmail />;
+  return (
+    <Switch>
+      <Route path="/book/:id" component={Book} />
+      <Route path='/logout' component={Dashboard} />
+      <Route path='/tables' component={Tables} />
+      <Route path="/" component={AuthenticatedLanding} />
+    </Switch>
+  );
 };
 const PublicRoutes = () => {
    return (

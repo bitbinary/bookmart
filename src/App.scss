@@ -3,18 +3,20 @@ $color-secondary: #ffffff;
 $color-text: #000000;
 $color-links: #000000;
 html {
-  flex-grow: 1;
-  height: 100%;
+   flex-grow: 1;
+   height: 100%;
 }
 body {
-  background-color: $color-primary;
-  color: $color-text;
-  height: 100%;
-  width: 100%;
+   background-color: $color-primary;
+   color: $color-text;
+   height: 100%;
+   width: 100%;
+   //  background-color: #25172a;
+   //  color: white;
 }
 #root {
-  height: 100%;
-  width: 100%;
+   height: 100%;
+   width: 100%;
 }
 .app {
   min-height: 100%;
@@ -26,10 +28,23 @@ body {
   align-items: center;
 }
 a {
-  color: $color-links;
+   color: $color-links;
 }
 label {
-  color: #6b7c93;
-  font-weight: 300;
-  letter-spacing: 0.025em;
+   color: #6b7c93;
+   font-weight: 300;
+   letter-spacing: 0.025em;
+}
+
+.quick-add {
+   position: absolute;
+   top: 100%;
+   width: 100%;
+   height: 4.0015rem;
+   background: #fff;
+   transition: all 0.25s ease-out;
+}
+
+.top-books-card:hover .quick-add {
+   top: calc(100% - 3.155rem) !important;
 }

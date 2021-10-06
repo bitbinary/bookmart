@@ -168,7 +168,15 @@ export default function Allbooks() {
                                  </Typography>
                                  <CardActions>
                                     <Button size='small'>View</Button>
-                                    <Button size='small'>Add to cart</Button>
+                                    <Button
+                                       size='small'
+                                       variant='contained'
+                                       sx={{
+                                          backgroundColor: '#ad92fa !important',
+                                       }}
+                                    >
+                                       Add to cart
+                                    </Button>
                                  </CardActions>
                               </div>
                            </Grid>

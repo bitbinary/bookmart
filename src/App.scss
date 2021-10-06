@@ -19,13 +19,13 @@ body {
    width: 100%;
 }
 .app {
-  min-height: 100%;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-start;
-  align-items: center;
+   min-height: 100%;
+   height: 100%;
+   width: 100%;
+   display: flex;
+   flex-flow: column;
+   justify-content: flex-start;
+   align-items: center;
 }
 a {
    color: $color-links;
@@ -41,10 +41,26 @@ label {
    top: 100%;
    width: 100%;
    height: 4.0015rem;
-   background: #fff;
+   background: #ad92fa;
    transition: all 0.25s ease-out;
+   display: flex;
 }
 
 .top-books-card:hover .quick-add {
    top: calc(100% - 3.155rem) !important;
+}
+
+.book-title {
+   line-height: 1.3em !important;
+   max-height: 2.6em;
+   font-family: Poynter, Georgia, serif !important;
+   font-size: 16px;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+   overflow: hidden;
+}
+
+.controller {
+   width: 90%;
 }

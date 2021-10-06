@@ -206,7 +206,7 @@ export default function Navbar() {
                   component='div'
                   sx={{ display: { xs: 'none', sm: 'block' } }}
                >
-                  Book Mart
+                  bookMart
                </Typography>
 
                <Box sx={{ flexGrow: 1 }} />

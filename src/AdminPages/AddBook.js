@@ -1,7 +1,8 @@
+import { TextField, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+// import TextField from '@material-ui/core/TextField';
+// import Button from '@material-ui/core/Button';
 import { useForm, Controller } from 'react-hook-form';
 import ImageUploader from './utils/ImageUploader';
 

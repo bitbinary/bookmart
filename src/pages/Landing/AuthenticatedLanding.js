@@ -12,7 +12,11 @@ export default function AuthenticatedLanding() {
    return (
       <Box
          className='e-container'
-         sx={{ height: '95vh', width: '100%', display: 'flex' }}
+         sx={{
+            height: '95vh',
+            width: '100%',
+            display: 'flex',
+         }}
       >
          <Box
             className='e-wrapper'

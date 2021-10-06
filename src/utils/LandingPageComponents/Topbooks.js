@@ -96,7 +96,14 @@ export default function Topbooks(props) {
                                  }}
                               >
                                  {' '}
-                                 <Button size='small'>Quick add</Button>
+                                 <Button
+                                    size='small'
+                                    style={{
+                                       color: '#FFFFFF',
+                                    }}
+                                 >
+                                    Quick add
+                                 </Button>
                               </div>
                               {/* <CardContent>
                                  <Typography

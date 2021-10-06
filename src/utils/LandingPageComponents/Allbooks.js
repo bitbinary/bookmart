@@ -128,18 +128,21 @@ export default function Allbooks() {
                                        style={{
                                           textAlign: 'center',
                                           marginTop: '.8rem',
+                                          marginBottom: '.8rem',
                                           minHeight: '45px',
                                        }}
                                     >
                                        <Typography
-                                          sx={{
-                                             fontFamily:
-                                                'Poynter,Georgia,serif',
-                                             fontSize: '16px',
-                                             overflow: 'hidden',
-                                             lineHeight: '1.3rem',
-                                             maxHeight: '2.6rem',
-                                          }}
+                                          className='book-title'
+                                          gutterBottom
+                                          // sx={{
+                                          //    fontFamily:
+                                          //       'Poynter,Georgia,serif',
+                                          //    fontSize: '16px',
+                                          //    overflow: 'hidden',
+                                          //    lineHeight: '1.3rem',
+                                          //    maxHeight: '2.6rem',
+                                          // }}
                                        >
                                           {book.title}
                                        </Typography>

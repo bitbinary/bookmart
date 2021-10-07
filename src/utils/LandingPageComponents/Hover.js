@@ -15,7 +15,6 @@ export default function Hover() {
                   sx={{
                      fontFamily: 'Poynter,Georgia,serif',
                      fontStyle: 'italic',
-                     backgroundColor: 'yellow',
                   }}
                   {...bindTrigger(popupState)}
                />

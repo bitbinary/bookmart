@@ -19,12 +19,15 @@ import Tables from './AdminPages/Tables';
 import Book from './pages/Book/Book';
 import AddBook from './AdminPages/AddBook';
 import bookMart from './utils/LandingPageComponents/bookMart.gif';
+import MyBooks from './pages/MyBooks/MyBooks';
+import MyCart from './pages/MyCart/MyCart';
+import MyProfile from './pages/MyProfile/MyProfile';
 
 function App() {
   return (
     <div className="app">
-      <Navbar />
       <Router>
+        <Navbar />
         <Switch>
           <Route path="/" component={Public} />
         </Switch>
@@ -64,6 +67,9 @@ const PrivateRoutes = ({ emailVerified }) => {
   return (
     <Switch>
       <Route exact path="/book/:id" component={Book} />
+      <Route exact path="/mybooks" component={MyBooks} />
+      <Route exact path="/mycart" component={MyCart} />
+      <Route exact path="/myprofile" component={MyProfile} />
       <Route exact path="/logout" component={Dashboard} />
       <Route exact path="/tables" component={Tables} />
       <Route exact path="/add" component={AddBook} />

@@ -65,8 +65,8 @@ export default function BookDetailsCard({ details }) {
       </Grid>
       <Typography variant="subtitle2" gutterBottom component="div">
         Synopsis:
-        {synopsis.map((synop) => (
-          <Typography variant="body2" gutterBottom component="div">
+        {synopsis.map((synop, index) => (
+          <Typography key={index} variant="body2" gutterBottom component="div">
             {synop}
           </Typography>
         ))}

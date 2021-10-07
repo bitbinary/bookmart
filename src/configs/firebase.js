@@ -2,6 +2,7 @@ import * as firebase from 'firebase/app';
 import * as firebaseAuth from 'firebase/auth';
 import * as firebaseFirestore from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
+import { useAuthState } from 'react-firebase-hooks/auth';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -12,7 +13,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 const app = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
 const auth = firebaseAuth.getAuth();
 const db = firebaseFirestore.getFirestore();
 const googleProvider = new firebaseAuth.GoogleAuthProvider();
@@ -53,6 +54,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       password
     );
     const user = res.user;
+    // localStorage.setItem('token');
     firebaseAuth.sendEmailVerification(user).then(() => {
       alert('Email verification sent. Please verify your email.');
     });
@@ -76,10 +78,21 @@ const sendPasswordResetEmail = async (email) => {
     alert(err.message);
   }
 };
+const refreshToken = () => {
+  const user = auth.currentUser;
+  if (user) {
+    user.getIdToken().then((token) => {
+      localStorage.setItem('token', token);
+    });
+  }
+};
 const logout = () => {
   firebaseAuth
     .signOut(auth)
-    .then(() => console.log('logged out'))
+    .then(() => {
+      localStorage.removeItem('token');
+      console.log('logged out');
+    })
     .catch((e) => console.log(e));
 };
 export {
@@ -89,5 +102,6 @@ export {
   signInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendPasswordResetEmail,
+  refreshToken,
   logout,
 };

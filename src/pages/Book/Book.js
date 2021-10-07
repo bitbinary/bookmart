@@ -3,8 +3,9 @@ import { Box, styled } from '@mui/system';
 import { Container, Grid, Paper } from '@mui/material';
 import Image from '../../utils/shared/Image';
 import BookDetailsCard from './BookDetailsCard';
-import BookPurchase from './BookPurchase';
 import Reviews from '../../utils/Reviews/Reviews';
+import { useParams } from 'react-router';
+import { useFetch } from '../../tools/hooks/useFetch';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
@@ -48,6 +49,9 @@ const bookData = {
 };
 
 export default function Book() {
+  const { id } = useParams();
+  const { status, error, data } = useFetch('todos/1');
+  console.log(status, error, data);
   return (
     <Box
       sx={{

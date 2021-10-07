@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -14,8 +12,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
-import { auth } from '../../configs/firebase';
+import { auth, logout } from '../../configs/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Link } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 
 // const Search = styled('div')(({ theme }) => ({
@@ -83,6 +82,11 @@ export default function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    handleMenuClose();
+    logout();
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -100,8 +104,14 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Button color="inherit" component={Link} to="/myprofile">
+          Account
+        </Button>
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <Button color="inherit">Logout</Button>
+      </MenuItem>
     </Menu>
   );
 
@@ -159,12 +169,25 @@ export default function Navbar() {
 
   const renderAuthenticatedNavItems = (
     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-      <Button color="inherit">My Books</Button>
-      <IconButton size="large" aria-label="17 items in cart" color="inherit">
+      <Button color="inherit" component={Link} to="/home">
+        Home
+      </Button>
+      <Button color="inherit" component={Link} to="/mybooks">
+        My Books
+      </Button>
+      <Button
+        component={Link}
+        to="/mycart"
+        size="large"
+        aria-label="17 items in cart"
+        color="inherit"
+      >
         <Badge badgeContent={17} color="error">
+          <Typography variant="button">My Cart </Typography>
+
           <ShoppingCartIcon />
         </Badge>
-      </IconButton>
+      </Button>
 
       <IconButton
         size="large"
@@ -181,8 +204,12 @@ export default function Navbar() {
   );
   const renderUnauthenticatedNavItems = (
     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-      <Button color="inherit">Home</Button>
-      <Button color="inherit">Login</Button>
+      <Button color="inherit" component={Link} to="/home">
+        Home
+      </Button>
+      <Button color="inherit" component={Link} to="/login">
+        Login
+      </Button>
     </Box>
   );
 

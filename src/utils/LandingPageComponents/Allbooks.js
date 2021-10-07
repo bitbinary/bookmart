@@ -31,8 +31,6 @@ export default function Allbooks() {
       <Box
          className='all-books-container'
          sx={{
-            // backgroundColor: '#25172A',
-
             flex: '2',
             display: 'flex',
             flexDirection: 'column',
@@ -46,6 +44,7 @@ export default function Allbooks() {
             sx={{
                display: 'flex',
                justifyContent: 'space-between',
+               alignItems: 'center',
             }}
          >
             <Typography
@@ -63,13 +62,16 @@ export default function Allbooks() {
             <div
                style={{
                   display: 'flex',
-                  justifyContent: 'space-evenly',
+                  justifyContent: 'space-around',
+                  border: 'solid #48185c',
                   alignItems: 'center',
+                  backgroundColor: '#A2A2A2',
+                  width: '40%',
                }}
             >
                <SearchBar keyword={input} setKeyword={setInput} />
-               <Hover />
                <Sorter />
+               <Hover />
             </div>
          </Box>
          <Box className='all-books-wrapper' sx={{ flexGrow: 1, padding: '1%' }}>
@@ -167,16 +169,25 @@ export default function Allbooks() {
                                     {book.price}
                                  </Typography>
                                  <CardActions>
-                                    <Button size='small'>View</Button>
                                     <Button
                                        size='small'
-                                       variant='contained'
-                                       sx={{
-                                          backgroundColor: '#ad92fa !important',
-                                       }}
+                                       className='view-buttons'
+
+                                       // sx={{
+                                       //    backgroundColor: '#ad92fa !important',
+                                       // }}
                                     >
-                                       Add to cart
+                                       View
                                     </Button>
+                                    {/* <Button
+                                       size='small'
+                                       className='add-buttons'
+                                       // sx={{
+                                       //    backgroundColor: '#8C9955 !important',
+                                       // }}
+                                    >
+                                       + cart
+                                    </Button> */}
                                  </CardActions>
                               </div>
                            </Grid>

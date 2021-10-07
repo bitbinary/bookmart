@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, getThemeProps } from '@mui/system';
 import Carousel from 'react-elastic-carousel';
+// import Carousel from 'react-material-ui-carousel';
+
 // import topbooks from './topbooks.json';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -38,8 +40,6 @@ export default function Topbooks(props) {
       <Box
          className='top-books-container'
          sx={{
-            // backgroundColor: '#DBC249',
-
             flex: '2',
             display: 'flex',
             flexDirection: 'column',
@@ -66,7 +66,7 @@ export default function Topbooks(props) {
             }}
          >
             {top && (
-               <Carousel breakPoints={breakPoints}>
+               <Carousel breakPoints={breakPoints} pagination={false}>
                   {top.map((book) => {
                      return (
                         <Card

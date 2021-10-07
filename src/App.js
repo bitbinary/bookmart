@@ -18,7 +18,6 @@ import AuthenticatedLanding from './pages/Landing/AuthenticatedLanding';
 import Tables from './AdminPages/Tables';
 import Book from './pages/Book/Book';
 import AddBook from './AdminPages/AddBook';
-import bookMart from './utils/LandingPageComponents/bookMart.gif';
 import MyBooks from './pages/MyBooks/MyBooks';
 import MyCart from './pages/MyCart/MyCart';
 import MyProfile from './pages/MyProfile/MyProfile';

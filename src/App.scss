@@ -42,9 +42,19 @@ label {
    top: 100%;
    width: 100%;
    height: 4.0015rem;
-   background: #ad92fa;
+   background: #48185c;
    transition: all 0.25s ease-out;
    display: flex;
+
+   font-size: 1.0005rem;
+   font-weight: 700;
+   border: 5px solid white;
+   padding: 0.5155rem 0.6155rem 0.7155rem;
+   text-align: center;
+   width: 100%;
+   text-decoration: none;
+   height: 2.3082rem;
+   letter-spacing: 0.0385rem;
 }
 
 .top-books-card:hover .quick-add {
@@ -64,4 +74,14 @@ label {
 
 .controller {
    width: 90%;
+}
+
+.add-buttons {
+   background-color: #8c9955 !important;
+   color: white !important;
+}
+
+.view-buttons {
+   background-color: #48185c !important;
+   color: white !important;
 }

@@ -47,18 +47,19 @@ const Protected = () => {
     if (!user) return null;
     const { emailVerified } = user;
     const claims = localStorage.getItem('userClaim');
-    console.log('claims:' + claims);
     getUserClaims(claims === null)
       .then((idTokenResult) => {
-        console.log(idTokenResult);
         // Confirm the user is an Admin.
-        if (!emailVerified)
-          setProtectedElement(
-            <PublicRoutes showVerifyEmailNotification={true} />
-          );
+        localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
+
         if (!!idTokenResult.claims.admin) {
           // Show admin UI.
+          console.log('to Set:' + !!idTokenResult.claims.admin);
           localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
+          if (!emailVerified)
+            setProtectedElement(
+              <PublicRoutes showVerifyEmailNotification={true} />
+            );
           setProtectedElement(
             <PrivateRoutesAdmin emailVerified={emailVerified} />
           );

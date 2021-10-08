@@ -51,7 +51,6 @@ const bookData = {
 export default function Book() {
   const { id } = useParams();
   const { status, error, data } = useFetch('todos/1');
-  console.log(status, error, data);
   return (
     <Box
       sx={{

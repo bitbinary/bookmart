@@ -1,12 +1,6 @@
 import * as firebase from 'firebase/app';
 import * as firebaseAuth from 'firebase/auth';
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  onSnapshot,
-} from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import {
   getFunctions,
   httpsCallable,
@@ -144,7 +138,7 @@ const getUserData = async (userId) => {
 const getUserClaims = async (forceUpdate) => {
   console.log(forceUpdate);
   if (auth.currentUser) {
-    return auth.currentUser.getIdTokenResult(forceUpdate);
+    return firebaseAuth.getAuth()?.currentUser?.getIdTokenResult(forceUpdate);
   }
 };
 
@@ -169,13 +163,24 @@ const adminRegisterWithEmailAndPassword = async (name, email, password) => {
     });
     refreshToken();
     console.log('Adding a Admin account');
-    setUserData({
-      displayName: name,
-      email: user.email,
-      role: 'admin',
-      uid: user.uid,
-      metadata: { creationTime: user.metadata.creationTime },
-    });
+    const userDocRef = doc(db, `Users/${user.uid}`);
+    const userdoc = await getDoc(userDocRef);
+
+    if (userdoc.exists()) {
+      return userdoc.data();
+    } else {
+      await setDoc(
+        userDocRef,
+        {
+          username: user.displayName,
+          email: user.email,
+          role: 'admin',
+          uid: user.uid,
+          createdAt: user.metadata.creationTime,
+        },
+        { merge: true }
+      );
+    }
 
     firebaseAuth.sendEmailVerification(user).then(() => {
       alert('Email verification sent. Please verify your email.');

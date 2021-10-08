@@ -136,7 +136,6 @@ const getUserData = async (userId) => {
   }
 };
 const getUserClaims = async (forceUpdate) => {
-  console.log(forceUpdate);
   if (auth.currentUser) {
     return firebaseAuth.getAuth()?.currentUser?.getIdTokenResult(forceUpdate);
   }

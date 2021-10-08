@@ -104,18 +104,20 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Button color="inherit" component={Link} to="/myprofile">
-          Account
-        </Button>
-      </MenuItem>
+      {!localStorage.getItem('userClaim') && (
+        <MenuItem onClick={handleMenuClose}>
+          <Button color="inherit" component={Link} to="/myprofile">
+            Account
+          </Button>
+        </MenuItem>
+      )}
       <MenuItem onClick={handleLogout}>
         <Button color="inherit">Logout</Button>
       </MenuItem>
     </Menu>
   );
-
   const mobileMenuId = 'primary-search-account-menu-mobile';
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -132,76 +134,151 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
+      <MenuItem onClick={handleMenuClose}>
+        <Button color="inherit" component={Link} to="/">
+          Home
+        </Button>
       </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+
+      <MenuItem onClick={handleMenuClose}>
+        <Button component={Link} to="/login" color="inherit">
+          Login
+        </Button>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+    </Menu>
+  );
+  const renderAuthenticatedMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      {localStorage.getItem('userClaim') === 'false' && (
+        <MenuItem onClick={handleMenuClose}>
+          <Button color="inherit" component={Link} to="/home">
+            Home
+          </Button>
+        </MenuItem>
+      )}
+      {localStorage.getItem('userClaim') === 'false' && (
+        <MenuItem onClick={handleMenuClose}>
+          <Button color="inherit" component={Link} to="/mybooks">
+            My Books
+          </Button>
+        </MenuItem>
+      )}
+      {localStorage.getItem('userClaim') === 'false' && (
+        <MenuItem onClick={handleMenuClose}>
+          <Button
+            component={Link}
+            to="/mycart"
+            size="large"
+            aria-label="17 items in cart"
+            color="inherit"
+          >
+            <Badge badgeContent={17} color="error">
+              <Typography variant="button">My Cart </Typography>
+
+              <ShoppingCartIcon />
+            </Badge>
+          </Button>
+        </MenuItem>
+      )}
+      {localStorage.getItem('userClaim') === 'false' && (
+        <MenuItem onClick={handleMenuClose}>
+          <Button color="inherit" component={Link} to="/myprofile">
+            Account
+          </Button>
+        </MenuItem>
+      )}
+      <MenuItem onClick={handleLogout}>
+        <Button color="inherit">Logout</Button>
       </MenuItem>
     </Menu>
   );
 
-  const renderAuthenticatedNavItems = (
-    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-      <Button color="inherit" component={Link} to="/home">
-        Home
-      </Button>
-      <Button color="inherit" component={Link} to="/mybooks">
-        My Books
-      </Button>
-      <Button
-        component={Link}
-        to="/mycart"
-        size="large"
-        aria-label="17 items in cart"
-        color="inherit"
-      >
-        <Badge badgeContent={17} color="error">
-          <Typography variant="button">My Cart </Typography>
+  const renderAuthenticatedNavItems = () => {
+    const claims = localStorage.getItem('userClaim');
+    console.log('admin:' + localStorage.getItem('userClaim'));
+    if (claims === 'true')
+      return (
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </Box>
+      );
+    else if (claims === 'false')
+      return (
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Button color="inherit" component={Link} to="/home">
+            Home
+          </Button>
+          <Button color="inherit" component={Link} to="/mybooks">
+            My Books
+          </Button>
+          <Button
+            component={Link}
+            to="/mycart"
+            size="large"
+            aria-label="17 items in cart"
+            color="inherit"
+          >
+            <Badge badgeContent={17} color="error">
+              <Typography variant="button">My Cart </Typography>
 
-          <ShoppingCartIcon />
-        </Badge>
-      </Button>
+              <ShoppingCartIcon />
+            </Badge>
+          </Button>
 
-      <IconButton
-        size="large"
-        edge="end"
-        aria-label="account of current user"
-        aria-controls={menuId}
-        aria-haspopup="true"
-        onClick={handleProfileMenuOpen}
-        color="inherit"
-      >
-        <AccountCircle />
-      </IconButton>
-    </Box>
-  );
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </Box>
+      );
+    else
+      return (
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </Box>
+      );
+  };
   const renderUnauthenticatedNavItems = (
     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Button color="inherit" component={Link} to="/home">
@@ -227,7 +304,8 @@ export default function Navbar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
-          {!loading && user && renderAuthenticatedNavItems}
+          {console.log(localStorage.getItem('userClaim'))}
+          {!loading && user && renderAuthenticatedNavItems()}
           {!user && renderUnauthenticatedNavItems}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -243,8 +321,9 @@ export default function Navbar() {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      {user && renderAuthenticatedMobileMenu}
+      {!user && renderMobileMenu}
+      {user && renderMenu}
     </Box>
   );
 }

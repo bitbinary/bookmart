@@ -209,7 +209,6 @@ export default function Navbar() {
 
   const renderAuthenticatedNavItems = () => {
     const claims = localStorage.getItem('userClaim');
-    console.log('admin:' + localStorage.getItem('userClaim'));
     if (claims === 'true')
       return (
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -304,7 +303,6 @@ export default function Navbar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
-          {console.log(localStorage.getItem('userClaim'))}
           {!loading && user && renderAuthenticatedNavItems()}
           {!user && renderUnauthenticatedNavItems}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

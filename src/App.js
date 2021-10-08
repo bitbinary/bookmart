@@ -46,9 +46,11 @@ const Protected = () => {
   useEffect(() => {
     if (!user) return null;
     const { emailVerified } = user;
-
-    getUserClaims(!localStorage.getItem('userClaim'))
+    const claims = localStorage.getItem('userClaim');
+    console.log('claims:' + claims);
+    getUserClaims(claims === null)
       .then((idTokenResult) => {
+        console.log(idTokenResult);
         // Confirm the user is an Admin.
         if (!emailVerified)
           setProtectedElement(

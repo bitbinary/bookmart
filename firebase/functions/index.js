@@ -18,6 +18,7 @@ exports.setUserClaim = functions.auth.user().onCreate((user) => {
 //   });
 
 const grantAdminRole = (userId) => {
+  console.log('granding Admin Role');
   return admin.auth().setCustomUserClaims(userId, {
     admin: true,
   });
@@ -70,6 +71,7 @@ exports.addAdmin = functions.https.onCall((data, context) => {
       .auth()
       .verifyIdToken(token)
       .then((decoded) => {
+        console.log(userId);
         grantAdminRole(userId)
           .then(() => {
             console.log('Addmin Ading role for ' + userId);
@@ -85,11 +87,13 @@ exports.addAdmin = functions.https.onCall((data, context) => {
           });
       })
       .catch((err) => {
+        console.log(err);
         return {
           result: 'Not Authorized.',
         };
       });
   } else {
+    console.log('Request failed');
     return {
       result: 'Request failed',
     };

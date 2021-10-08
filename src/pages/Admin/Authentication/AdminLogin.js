@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { auth } from '../../configs/firebase';
+import { auth } from '../../../configs/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import './login.css';
+import './AdminLogin.css';
 import { Link } from 'react-router-dom';
-import PageLoading from '../../utils/shared/PageLoading';
+import PageLoading from '../../../utils/shared/PageLoading';
 import { Box } from '@mui/system';
 import { AppBar, Grid, Tab, Tabs } from '@mui/material';
-import LoginBox from './LoginBox';
-import { signInWithGoogle } from '../../configs/firebase';
-import RegisterBox from './RegisterBox';
+import LoginBox from './AdminLoginBox';
+import RegisterBox from './AdminRegisterBox';
 import SwipeableViews from 'react-swipeable-views';
-function Login() {
+function AdminLogin() {
   const [user, loading] = useAuthState(auth);
   const [value, setValue] = React.useState(0);
   const history = useHistory();
@@ -49,8 +48,8 @@ function Login() {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab label="Login" {...a11yProps(0)} />
-            <Tab label="Register" {...a11yProps(1)} />
+            <Tab label="Admin Login" {...a11yProps(0)} />
+            <Tab label="Admin Register" {...a11yProps(1)} />
           </Tabs>
         </AppBar>
         <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
@@ -78,14 +77,14 @@ function Login() {
           </TabPanel>
         </SwipeableViews>
 
-        <Grid m={1} item display="flex" justifyContent="center">
+        {/* <Grid m={1} item display="flex" justifyContent="center">
           <button
             className="login__btn login__google"
             onClick={signInWithGoogle}
           >
             Login with Google
           </button>
-        </Grid>
+        </Grid> */}
         <Grid m={1} item display="flex" justifyContent="center">
           <Link to="/reset">Forgot Password</Link>
         </Grid>
@@ -93,7 +92,7 @@ function Login() {
     </Box>
   );
 }
-export default Login;
+export default AdminLogin;
 
 function a11yProps(index) {
   return {

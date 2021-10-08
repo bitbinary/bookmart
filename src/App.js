@@ -6,7 +6,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Login from './pages/Login/Login';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Landing from './pages/Landing/Landing';
@@ -22,10 +22,10 @@ import MyBooks from './pages/MyBooks/MyBooks';
 import MyCart from './pages/MyCart/MyCart';
 import MyProfile from './pages/MyProfile/MyProfile';
 import AdminLogin from './pages/Admin/Authentication/AdminLogin';
-import { isAdmin } from '@firebase/util';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
-import { Popover, Typography } from '@mui/material';
-import { getAuth } from '@firebase/auth';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Typography } from '@mui/material';
 
 function App() {
   return (
@@ -35,6 +35,17 @@ function App() {
         <Switch>
           <Route path="/" component={Public} />
         </Switch>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </Router>
     </div>
   );

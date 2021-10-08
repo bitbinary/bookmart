@@ -1,11 +1,14 @@
 import * as firebase from 'firebase/app';
 import * as firebaseAuth from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+
 import {
   getFunctions,
   httpsCallable,
   connectFunctionsEmulator,
 } from 'firebase/functions';
+import { bottomStandard } from './toastConfigs';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -32,6 +35,7 @@ const signInWithGoogle = async () => {
     firebaseAuth.updateProfile(user, {
       displayName: user.displayName,
     });
+    toast(`Welcome ${user.displayName}`, bottomStandard);
     setUserData(user);
   } catch (err) {
     console.error(err);
@@ -46,6 +50,7 @@ const signInWithEmailAndPassword = async (email, password) => {
       password
     );
     const user = result.user;
+    toast(`Welcome ${user.displayName}`, bottomStandard);
     setUserData(user);
   } catch (err) {
     console.error(err);
@@ -71,8 +76,9 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       metadata: { creationTime: user.metadata.creationTime },
     });
     refreshToken();
+    toast(`Welcome ${user.displayName}`, bottomStandard);
     firebaseAuth.sendEmailVerification(user).then(() => {
-      alert('Email verification sent. Please verify your email.');
+      toast.info(`Email Verification Link sent`, bottomStandard);
     });
   } catch (err) {
     console.error(err);
@@ -82,10 +88,10 @@ const registerWithEmailAndPassword = async (name, email, password) => {
 const sendPasswordResetEmail = async (email) => {
   try {
     await firebaseAuth.sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent!');
+    toast(`Password Reset Link sent`, bottomStandard);
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    toast.error(`Unable to locate email`, bottomStandard);
   }
 };
 const refreshToken = () => {
@@ -97,6 +103,7 @@ const refreshToken = () => {
   }
 };
 const logout = () => {
+  toast(`See you soon`, bottomStandard);
   firebaseAuth
     .signOut(auth)
     .then(() => {
@@ -161,7 +168,7 @@ const adminRegisterWithEmailAndPassword = async (name, email, password) => {
       displayName: name,
     });
     refreshToken();
-    console.log('Adding a Admin account');
+    toast(`Welcome ${name}`, bottomStandard);
     const userDocRef = doc(db, `Users/${user.uid}`);
     const userdoc = await getDoc(userDocRef);
 
@@ -182,11 +189,11 @@ const adminRegisterWithEmailAndPassword = async (name, email, password) => {
     }
 
     firebaseAuth.sendEmailVerification(user).then(() => {
-      alert('Email verification sent. Please verify your email.');
+      toast.info(`Email Verification Link sent`, bottomStandard);
     });
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    toast.error(`Failed to Register`, bottomStandard);
   }
 };
 export {

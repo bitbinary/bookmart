@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,13 +8,13 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Button } from '@mui/material';
 import { auth, logout } from '../../configs/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
+import { Authenticator } from '../../context/Auth';
 // import { useHistory } from 'react-router-dom';
 
 // const Search = styled('div')(({ theme }) => ({
@@ -58,6 +58,9 @@ import { Link } from 'react-router-dom';
 // }));
 
 export default function Navbar() {
+  const authContext = useContext(Authenticator);
+  const isAdmin = authContext.isAdmin
+  console.log('isAdmin' + isAdmin)
   const [user, loading] = useAuthState(auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -104,7 +107,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {!localStorage.getItem('userClaim') && (
+      {!isAdmin && (
         <MenuItem onClick={handleMenuClose}>
           <Button color="inherit" component={Link} to="/myprofile">
             Account
@@ -163,21 +166,21 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {localStorage.getItem('userClaim') === 'false' && (
+      {isAdmin === false && (
         <MenuItem onClick={handleMenuClose}>
           <Button color="inherit" component={Link} to="/home">
             Home
           </Button>
         </MenuItem>
       )}
-      {localStorage.getItem('userClaim') === 'false' && (
+      {isAdmin === false && (
         <MenuItem onClick={handleMenuClose}>
           <Button color="inherit" component={Link} to="/mybooks">
             My Books
           </Button>
         </MenuItem>
       )}
-      {localStorage.getItem('userClaim') === 'false' && (
+      {isAdmin === false && (
         <MenuItem onClick={handleMenuClose}>
           <Button
             component={Link}
@@ -194,7 +197,7 @@ export default function Navbar() {
           </Button>
         </MenuItem>
       )}
-      {localStorage.getItem('userClaim') === 'false' && (
+      {isAdmin === false && (
         <MenuItem onClick={handleMenuClose}>
           <Button color="inherit" component={Link} to="/myprofile">
             Account
@@ -208,8 +211,7 @@ export default function Navbar() {
   );
 
   const renderAuthenticatedNavItems = () => {
-    const claims = localStorage.getItem('userClaim');
-    if (claims === 'true')
+    if (isAdmin === true)
       return (
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <IconButton
@@ -225,7 +227,7 @@ export default function Navbar() {
           </IconButton>
         </Box>
       );
-    else if (claims === 'false')
+    else if (isAdmin === false)
       return (
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <Button color="inherit" component={Link} to="/home">

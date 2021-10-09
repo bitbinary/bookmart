@@ -6,7 +6,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Login from './pages/Login/Login';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Landing from './pages/Landing/Landing';
@@ -26,33 +26,39 @@ import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Typography } from '@mui/material';
+import { AuthContext, Authenticator } from './context/Auth';
+
 
 function App() {
+
   return (
     <div className="app">
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path="/" component={Public} />
-        </Switch>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-      </Router>
+      <AuthContext>
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route path="/" component={Public} />
+          </Switch>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </Router>
+      </AuthContext>
     </div>
   );
 }
 
 const Protected = () => {
   const [user] = useAuthState(auth);
+  const { setIsAdmin } = useContext(Authenticator)
   const [ProtectedElement, setProtectedElement] = useState(<PageLoading />);
   useEffect(() => {
     if (!user) return null;
@@ -61,11 +67,11 @@ const Protected = () => {
     getUserClaims(claims === null)
       .then((idTokenResult) => {
         // Confirm the user is an Admin.
-        localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
+
 
         if (!!idTokenResult.claims.admin) {
           // Show admin UI.
-          console.log('to Set:' + !!idTokenResult.claims.admin);
+          setIsAdmin(true)
           localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
           if (!emailVerified)
             setProtectedElement(
@@ -76,6 +82,8 @@ const Protected = () => {
           );
         } else {
           // Show regular user UI.
+          setIsAdmin(false)
+          localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
           setProtectedElement(<PrivateRoutes emailVerified={emailVerified} />);
         }
       })

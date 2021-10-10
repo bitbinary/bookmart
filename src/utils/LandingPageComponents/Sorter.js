@@ -3,14 +3,25 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Button from '@mui/material/Button';
+import { Books } from '../../context/Books';
 
 export default function ControlledOpenSelect() {
-   const [age, setAge] = React.useState('');
+   const [sortBy, setSortBy] = React.useState('');
    const [open, setOpen] = React.useState(false);
+   const { updateFilters } = React.useContext(Books)
+   React.useEffect(() => {
+      let orderBy = null
+      let ascending = null
+      if (sortBy === 10) { orderBy = "price"; ascending = false }
+      if (sortBy === 20) { orderBy = "price"; ascending = true }
+      if (sortBy === 30) { orderBy = "rating"; ascending = false }
+      if (sortBy === 40) { orderBy = "rating"; ascending = false }
 
+      updateFilters({ orderBy: orderBy, ascending: ascending })
+
+   }, [sortBy])
    const handleChange = (event) => {
-      setAge(event.target.value);
+      setSortBy(event.target.value);
    };
 
    const handleClose = () => {
@@ -26,7 +37,7 @@ export default function ControlledOpenSelect() {
          <FormControl sx={{ m: 1, minWidth: 120 }}>
             <InputLabel
                id='demo-controlled-open-select-label'
-               //    style={{ color: 'white' }}
+            //    style={{ color: 'white' }}
             >
                Sort by
             </InputLabel>
@@ -36,10 +47,10 @@ export default function ControlledOpenSelect() {
                open={open}
                onClose={handleClose}
                onOpen={handleOpen}
-               value={age}
-               label='Age'
+               value={sortBy}
+               label='SortBy'
                onChange={handleChange}
-               //    style={{ color: 'white' }}
+            //    style={{ color: 'white' }}
             >
                <MenuItem value=''>
                   <em>None</em>

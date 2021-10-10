@@ -9,7 +9,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
-import bookshelves from './bookshelves.svg';
+import bookshelves from '../../assets/bookshelves.svg';
 export default function Filters() {
    const genres = {
       biography: false,

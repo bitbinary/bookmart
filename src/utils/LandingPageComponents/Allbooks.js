@@ -136,14 +136,14 @@ export default function Allbooks() {
                           <Typography
                             className="book-title"
                             gutterBottom
-                            // sx={{
-                            //    fontFamily:
-                            //       'Poynter,Georgia,serif',
-                            //    fontSize: '16px',
-                            //    overflow: 'hidden',
-                            //    lineHeight: '1.3rem',
-                            //    maxHeight: '2.6rem',
-                            // }}
+                          // sx={{
+                          //    fontFamily:
+                          //       'Poynter,Georgia,serif',
+                          //    fontSize: '16px',
+                          //    overflow: 'hidden',
+                          //    lineHeight: '1.3rem',
+                          //    maxHeight: '2.6rem',
+                          // }}
                           >
                             {book.title}
                           </Typography>
@@ -172,9 +172,9 @@ export default function Allbooks() {
                           size="small"
                           className="view-buttons"
 
-                          // sx={{
-                          //    backgroundColor: '#ad92fa !important',
-                          // }}
+                        // sx={{
+                        //    backgroundColor: '#ad92fa !important',
+                        // }}
                         >
                           View
                         </Button>

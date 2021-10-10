@@ -3,10 +3,10 @@ import topbooks from '../../utils/LandingPageComponents/topbooks.json';
 import { Box } from '@mui/system';
 import Topbooks from '../../utils/LandingPageComponents/Topbooks';
 import Allbooks from '../../utils/LandingPageComponents/Allbooks';
-import viewed from '../../utils/LandingPageComponents/viewed.png';
+import viewed from '../../assets/viewed.png';
 
-import recommand from '../../utils/LandingPageComponents/recommand.png';
-import best from '../../utils/LandingPageComponents/best.png';
+import recommand from '../../assets/recommand.png';
+import best from '../../assets/best.png';
 
 export default function AuthenticatedLanding() {
    return (

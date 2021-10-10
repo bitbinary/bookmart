@@ -6,7 +6,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import Login from './pages/Login/Login';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Landing from './pages/Landing/Landing';
@@ -14,7 +14,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, refreshToken, getUserClaims } from './configs/firebase';
 import PageLoading from './utils/shared/PageLoading';
 import Navbar from './utils/shared/Navbar';
-import AuthenticatedLanding from './pages/Landing/AuthenticatedLanding';
 import Tables from './AdminPages/Tables';
 import Book from './pages/Book/Book';
 import AddBook from './AdminPages/AddBook';
@@ -27,30 +26,38 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Typography } from '@mui/material';
 import { AuthContext, Authenticator } from './context/Auth';
-
+import Container from '@mui/material/Container';
+import { BooksContext } from './context/Books';
 
 function App() {
 
   return (
     <div className="app">
       <AuthContext>
-        <Router>
-          <Navbar />
-          <Switch>
-            <Route path="/" component={Public} />
-          </Switch>
-          <ToastContainer
-            position="bottom-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </Router>
+        <BooksContext>
+          <Router>
+            <Navbar />
+            <Container sx={{
+              flexGrow: 1,
+              display: 'flex',
+            }} >
+              <Switch>
+                <Route path="/" component={Public} />
+              </Switch>
+              <ToastContainer
+                position="bottom-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+            </Container>
+          </Router>
+        </BooksContext>
       </AuthContext>
     </div>
   );
@@ -59,6 +66,7 @@ function App() {
 const Protected = () => {
   const [user] = useAuthState(auth);
   const { setIsAdmin } = useContext(Authenticator)
+  const setIsAdminRef = useRef(setIsAdmin)
   const [ProtectedElement, setProtectedElement] = useState(<PageLoading />);
   useEffect(() => {
     if (!user) return null;
@@ -71,7 +79,7 @@ const Protected = () => {
 
         if (!!idTokenResult.claims.admin) {
           // Show admin UI.
-          setIsAdmin(true)
+          setIsAdminRef.current(true)
           localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
           if (!emailVerified)
             setProtectedElement(
@@ -82,7 +90,7 @@ const Protected = () => {
           );
         } else {
           // Show regular user UI.
-          setIsAdmin(false)
+          setIsAdminRef.current(false)
           localStorage.setItem('userClaim', !!idTokenResult.claims.admin);
           setProtectedElement(<PrivateRoutes emailVerified={emailVerified} />);
         }
@@ -90,7 +98,7 @@ const Protected = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [user]);
+  }, [user, setIsAdminRef]);
   if (!user) return <Redirect to="/" />;
   refreshToken();
 
@@ -104,6 +112,7 @@ const Protected = () => {
 };
 const Public = () => {
   const [user, loading] = useAuthState(auth);
+  console.log(loading)
   if (loading) return <PageLoading />;
   return (
     <Route
@@ -126,7 +135,7 @@ const PrivateRoutes = ({ emailVerified }) => {
       <Route exact path="/tables" component={Tables} />
       <Route exact path="/add" component={AddBook} />
       <Route path="/admin-login" component={AdminLogin} />
-      <Route path="/" component={AuthenticatedLanding} />
+      <Route path="/" component={Landing} />
     </Switch>
   );
 };

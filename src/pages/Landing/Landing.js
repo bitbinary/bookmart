@@ -1,26 +1,29 @@
 import React from 'react';
 import { Box } from '@mui/system';
-import Topbooks from '../../utils/LandingPageComponents/Topbooks';
-import Allbooks from '../../utils/LandingPageComponents/Allbooks';
-import topbooks from '../../utils/LandingPageComponents/topbooks.json';
-
+import RecentlyViewed from './RecentlyViewed';
+import BestSellers from './BestSellers';
+import RecommendedBooks from './RecommendedBooks';
+import AllBooks from './AllBooks';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../../configs/firebase';
+import Stack from '@mui/material/Stack';
 export default function Landing() {
+   const [user] = useAuthState(auth);
    return (
       <Box
-         className='e-container'
-         sx={{ height: '95vh', width: '100%', display: 'flex' }}
+         sx={{
+            display: 'flex',
+            flexFlow: 'column',
+            flexGrow: 1,
+            justifyContent: 'flex-start',
+         }}
       >
-         <Box
-            className='e-wrapper'
-            sx={{
-               width: '100%',
-               display: 'flex',
-               flexDirection: 'column',
-            }}
-         >
-            <Topbooks books={topbooks} />
-            <Allbooks />
-         </Box>
+         <Stack spacing={4} mb={5} mt={5}>
+            {user && <RecentlyViewed />}
+            <BestSellers />
+            {user && <RecommendedBooks />}
+            <AllBooks />
+         </Stack>
       </Box>
    );
 }

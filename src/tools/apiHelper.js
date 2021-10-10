@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 const defaultConfig = {
-  baseURL: 'https://jsonplaceholder.typicode.com/',
+  baseURL: 'http://127.0.0.1:5000/',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -25,23 +25,24 @@ axiosClient.defaults.withCredentials = false;
 
 export function getRequest(
   URL,
-  params = { id: 1, filters: ['name', 'genre'] }
+  params = {},
+  config
 ) {
   return axiosClient
-    .get(`/${URL}`, { params: params })
+    .get(`/${URL}`, { params: params, cancelToken: config?.cancelToken })
     .then((response) => response);
 }
 
-export function postRequest(URL, payload) {
-  return axiosClient.post(`/${URL}`, payload).then((response) => response);
+export function postRequest(URL, payload, config) {
+  return axiosClient.post(`/${URL}`, payload, { ...config }).then((response) => response);
 }
 
-export function patchRequest(URL, payload) {
-  return axiosClient.patch(`/${URL}`, payload).then((response) => response);
+export function patchRequest(URL, payload, config) {
+  return axiosClient.patch(`/${URL}`, { payload, ...config }).then((response) => response);
 }
 
-export function deleteRequest(URL) {
-  return axiosClient.delete(`/${URL}`).then((response) => response);
+export function deleteRequest(URL, config) {
+  return axiosClient.delete(`/${URL}`, { ...config }).then((response) => response);
 }
 
 export function putRequest(URL, payload) {

@@ -37,6 +37,7 @@ function Login() {
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        margin: 'auto'
       }}
     >
       <Grid spacing={2} flexDirection="column" display="flex">

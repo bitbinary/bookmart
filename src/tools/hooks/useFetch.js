@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useReducer } from 'react';
 import {
   getRequest,
@@ -6,6 +7,7 @@ import {
   deleteRequest,
   putRequest,
 } from '../apiHelper';
+import { CancelToken } from 'axios'
 //Defining the set of available httpMethod and their corresponsing functions
 const apiMethods = {
   GET: getRequest,
@@ -31,7 +33,7 @@ export const useFetch = (url, params, method = 'GET', shouldCache = false) => {
   const initialState = {
     status: 'idle',
     error: null,
-    data: [],
+    data: null,
   };
   // Reduced for state updation
   const [state, dispatch] = useReducer((state, action) => {
@@ -49,9 +51,9 @@ export const useFetch = (url, params, method = 'GET', shouldCache = false) => {
 
   // UseEffect that handles the API call
   useEffect(() => {
+    const ourRequest = CancelToken.source() // <-- 1st step
     let cancelRequest = false;
     if (!url) return;
-
     const fetchData = async () => {
       dispatch({ type: 'FETCHING' });
       if (cache.current[url] && shouldCache) {
@@ -59,7 +61,9 @@ export const useFetch = (url, params, method = 'GET', shouldCache = false) => {
         dispatch({ type: 'FETCHED', payload: data });
       } else {
         try {
-          const response = await apiMethods[method](url, params);
+          const response = await apiMethods[method](url, params, {
+            cancelToken: ourRequest.token, // <-- 2nd step
+          });
           const data = await response.data;
           cache.current[url] = data;
           if (cancelRequest && shouldCache) return;
@@ -72,10 +76,10 @@ export const useFetch = (url, params, method = 'GET', shouldCache = false) => {
     };
 
     fetchData();
+    return () => {
+      ourRequest.cancel() // <-- 3rd step
+    }
 
-    return function cleanup() {
-      cancelRequest = true;
-    };
-  }, [url, method, params, shouldCache]);
+  }, [url, JSON.stringify(params)]);
   return state;
 };

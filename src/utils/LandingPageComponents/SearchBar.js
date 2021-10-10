@@ -46,18 +46,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchBar(props) {
    const { keyword, setKeyword } = props;
    return (
-      <div>
-         <Search>
-            <SearchIconWrapper>
-               <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-               placeholder='search by authors/title'
-               inputProps={{ 'aria-label': 'search' }}
-               value={keyword}
-               onChange={(e) => setKeyword(e.target.value)}
-            />
-         </Search>
-      </div>
+      <Search sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, flexBasis: '200px', flexShrink: 0 }}>
+         <SearchIconWrapper>
+            <SearchIcon />
+         </SearchIconWrapper>
+         <StyledInputBase
+            placeholder="Search…"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            inputProps={{ 'aria-label': 'search' }}
+         />
+      </Search>
    );
 }

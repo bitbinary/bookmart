@@ -69,7 +69,7 @@ export default function BookListCard({ cardData }) {
                         component={Link}
                         to={`/book/${isbn}`}
                         size="large"
-                        aria-label="17 items in cart"
+                        aria-label="View Book details"
                         variant="contained"
                         color="primary"
                     >View More</Button>

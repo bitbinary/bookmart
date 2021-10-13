@@ -1,0 +1,22 @@
+.addBooks-container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+   width: 100%;
+}
+
+.addBooks-form-Container {
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   justify-content: space-around;
+   height: 90%;
+   width: 80%;
+}
+
+.addBooks-button-wrapper {
+   display: flex;
+
+   justify-content: space-between;
+}

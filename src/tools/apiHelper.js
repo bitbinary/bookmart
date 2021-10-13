@@ -8,7 +8,7 @@ const defaultConfig = {
     'Access-Control-Allow-Origin': '*',
   },
   paramsSerializer: function (params) {
-    return qs.stringify(params, { arrayFormat: 'bracket' });
+    return qs.stringify(params, { arrayFormat: 'repeat' });
   },
 };
 

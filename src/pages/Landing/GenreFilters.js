@@ -10,7 +10,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { Books } from 'context/Books';
 import { CodeSharp } from '@mui/icons-material';
 const setInitalValues = (array, referenceArray) => {
-   console.log(referenceArray);
    if (!array?.length) return {};
    const result = {};
    array.map((arrayElement) => {
@@ -21,7 +20,6 @@ const setInitalValues = (array, referenceArray) => {
    return result;
 };
 const getSetArray = (array1, array2) => {
-   console.log(array1, array2);
    return Array(...new Set([...array1, ...array2]));
 };
 

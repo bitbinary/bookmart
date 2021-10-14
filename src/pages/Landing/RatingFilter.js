@@ -1,5 +1,6 @@
 import { Slider, Stack, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import { Books } from 'context/Books';
+import React, { useContext, useEffect } from 'react';
 const marks = [
    { label: '0', value: 0 },
    //   { label: '0.5', value: 10 },
@@ -13,8 +14,19 @@ const marks = [
    //   { label: '4.5', value: 90 },
    { label: '5', value: 5 },
 ];
-export default function RatingFilter({ updateBookFilters, min, max }) {
-   const [value, setValue] = React.useState([0, 5]);
+export default function RatingFilter({
+   updateBookFilters,
+   min,
+   max,
+   bookFilters,
+}) {
+   const { allBooksFilters } = useContext(Books);
+   const initialValue = bookFilters?.rating
+      ? bookFilters?.rating
+      : allBooksFilters?.rating
+      ? allBooksFilters?.rating
+      : [0, 5];
+   const [value, setValue] = React.useState(initialValue);
 
    useEffect(() => {
       updateBookFilters({

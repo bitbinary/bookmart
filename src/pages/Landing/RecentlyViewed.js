@@ -19,10 +19,14 @@ export default function BestSellers() {
       }
    }, [data]);
    return (
-      <BookCarousel
-         isLoading={isLoading}
-         carouselData={data?.books}
-         carouselTitle={'Recently Viewed'}
-      />
+      <>
+         {!!recentlyViewed.length && (
+            <BookCarousel
+               isLoading={isLoading}
+               carouselData={data?.books}
+               carouselTitle={'Recently Viewed'}
+            />
+         )}
+      </>
    );
 }

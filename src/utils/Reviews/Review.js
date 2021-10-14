@@ -39,7 +39,7 @@ export default function Review({ review }) {
       />
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
-          <Grid container xs={12}>
+          <Grid container>
             <Grid item xs={12}>
               <Typography component="div" variant="subtitle2">
                 {userName}
@@ -55,8 +55,8 @@ export default function Review({ review }) {
                 />
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography component="div" variant="body2"></Typography>
-                  {userFeelings?.map(({ feeling, id }) => (
-                    <Emotings variant={feeling} id={id} />
+                  {userFeelings?.map(({ feeling, id }, index) => (
+                    <Emotings variant={feeling} key={index} />
                   ))}
                 </Stack>
               </Stack>

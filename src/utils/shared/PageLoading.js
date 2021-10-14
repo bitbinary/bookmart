@@ -1,13 +1,11 @@
-import { LinearProgress } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
-
+import bookMart from '../../assets/bookMart.gif';
 export default function PageLoading() {
   return (
     <Box
       sx={{
         display: 'flex',
-        backgroundColor: '#fdfdfd',
         flexGrow: 1,
         flexShrink: 0,
         flexFlow: 'column',
@@ -16,8 +14,8 @@ export default function PageLoading() {
         width: '100%',
       }}
     >
-      Loading Page
-      <LinearProgress sx={{ width: '300px' }} />
+
+      <img src={bookMart} alt="Book mart" />
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
@@ -7,70 +7,89 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-const convertArrayToObj = (array, defaultValue) => {
-  if (!array) return {};
-  const result = {};
-  array.map((arrayElement) => {
-    result[arrayElement] = defaultValue;
-    return null;
-  });
-  return result;
+import { Books } from 'context/Books';
+import { CodeSharp } from '@mui/icons-material';
+const setInitalValues = (array, referenceArray) => {
+   if (!array?.length) return {};
+   const result = {};
+   array.map((arrayElement) => {
+      result[arrayElement] =
+         referenceArray?.indexOf(arrayElement) >= 0 ? true : false;
+      return null;
+   });
+   return result;
 };
-export default function GenreFilters({ genres, updateBookFilters }) {
-  const [generFilters, setGenreFilters] = useState(
-    convertArrayToObj(genres, false)
-  );
+const getSetArray = (array1, array2) => {
+   return Array(...new Set([...array1, ...array2]));
+};
 
-  const handleChange = (event) => {
-    setGenreFilters({
-      ...generFilters,
-      [event.target.name]: event.target.checked,
-    });
-  };
-  useEffect(() => {
-    const activeFilters = Object.entries(generFilters)?.map(
-      ([filterKey, value], index) => {
-        if (value) return filterKey;
+export default function GenreFilters({
+   genres,
+   updateBookFilters,
+   bookFilters,
+}) {
+   const { allBookGenres, allBooksFilters } = useContext(Books);
+   const [generFilters, setGenreFilters] = useState(() =>
+      setInitalValues(
+         allBookGenres,
+         getSetArray(
+            bookFilters?.genres ? bookFilters?.genres : [],
+            allBooksFilters?.genres ? allBooksFilters?.genres : []
+         )
+      )
+   );
+   const handleChange = (event) => {
+      setGenreFilters({
+         ...generFilters,
+         [event.target.name]: event.target.checked,
+      });
+   };
+   useEffect(() => {
+      if (generFilters) {
+         const activeFilters = [];
+         Object.entries(generFilters)?.map(([filterKey, value], index) => {
+            if (value) activeFilters.push(filterKey);
+         });
+         updateBookFilters({
+            genres: activeFilters,
+         });
       }
-    );
-    updateBookFilters({
-      genre: activeFilters,
-    });
-  }, [generFilters]);
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        {/* <FormLabel component='legend'>Pick your Genre(s)</FormLabel> */}
-        <Typography color="primary" variant="subtitle1">
-          {' '}
-          Genres{' '}
-        </Typography>
-        <FormGroup
-          sx={{
-            maxHeight: '300px',
-            overflowY: 'scroll',
-            overflowX: 'hidden',
-            flexFlow: 'column',
-          }}
-        >
-          {genres?.map((genre) => {
-            return (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={generFilters[genre]}
-                    onChange={handleChange}
-                    name={genre}
-                  />
-                }
-                label={genre}
-              />
-            );
-          })}
-        </FormGroup>
+   }, [generFilters]);
 
-        {/* <FormHelperText>You can display an error</FormHelperText> */}
-      </FormControl>
-    </Box>
-  );
+   return (
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+         <FormControl sx={{ m: 3 }} component='fieldset' variant='standard'>
+            {/* <FormLabel component='legend'>Pick your Genre(s)</FormLabel> */}
+            <Typography color='primary' variant='subtitle1'>
+               {' '}
+               Genres{' '}
+            </Typography>
+            <FormGroup
+               sx={{
+                  maxHeight: '300px',
+                  overflowY: 'scroll',
+                  overflowX: 'hidden',
+                  flexFlow: 'column',
+               }}
+            >
+               {allBookGenres?.map((genre) => {
+                  return (
+                     <FormControlLabel
+                        control={
+                           <Checkbox
+                              checked={generFilters[genre]}
+                              onChange={handleChange}
+                              name={genre}
+                           />
+                        }
+                        label={genre}
+                     />
+                  );
+               })}
+            </FormGroup>
+
+            {/* <FormHelperText>You can display an error</FormHelperText> */}
+         </FormControl>
+      </Box>
+   );
 }

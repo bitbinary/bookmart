@@ -28,9 +28,7 @@ const formData = [
 const AllBook = ({ handleClose }) => {
    const { handleSubmit, control } = useForm();
 
-   const onSubmit = (data) => {
-      console.log(data);
-   };
+   const onSubmit = (data) => {};
 
    return (
       <Box className='addBooks-container'>

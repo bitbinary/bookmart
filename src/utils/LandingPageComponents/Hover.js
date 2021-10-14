@@ -58,11 +58,13 @@ export default function Hover({
                         updateBookFilters={updateBookFilters}
                         min={rating?.[0] || 0}
                         max={rating?.[1] || 5}
+                        bookFilters={bookFilters}
                      />
                      <PriceFilter
                         updateBookFilters={updateBookFilters}
                         min={price?.[0] || 0}
                         max={price?.[1] || 15}
+                        bookFilters={bookFilters}
                      />
                      <GenreFilters
                         updateBookFilters={updateBookFilters}

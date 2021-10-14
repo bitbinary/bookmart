@@ -1,8 +1,5 @@
 import { Grid, Rating, Typography } from '@mui/material';
-import { auth } from 'configs/firebase';
 import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useFetch } from 'tools/hooks/useFetch';
 import BookPurchase from './BookPurchase';
 
 export default function BookDetailsCard({ details }) {
@@ -15,7 +12,7 @@ export default function BookDetailsCard({ details }) {
       price,
       currency,
       currencySymbol,
-      isbn,
+      ISBN,
       id,
       genre,
       language,
@@ -23,13 +20,6 @@ export default function BookDetailsCard({ details }) {
       userFeelings,
       synopsis,
    } = details;
-
-   const [user] = useAuthState(auth);
-   const token = user.accessToken;
-   const { status, error, data } = useFetch('books/getBookById', {
-      isbn,
-   });
-
    return (
       <>
          <Grid container spacing={1}>
@@ -50,7 +40,7 @@ export default function BookDetailsCard({ details }) {
                      />
                   </Typography>
                   <Typography variant='subtitle2' gutterBottom component='div'>
-                     ISBN: {isbn}
+                     ISBN: {ISBN}
                   </Typography>
                   <Typography variant='subtitle2' gutterBottom component='div'>
                      Languages: {language.map((lang) => lang)}

@@ -50,7 +50,7 @@ const bookData = {
 
 export default function Book() {
    const { id } = useParams();
-   const { status, error, data } = useFetch('books', { id });
+   const { status, error, data } = useFetch('books/getBookById', { isbn: id });
    return (
       <Box
          sx={{

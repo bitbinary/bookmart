@@ -173,7 +173,7 @@ const adminRegisterWithEmailAndPassword = async (name, email, password) => {
 
       const setAdminClaim = httpsCallable(functions, 'addAdmin');
       setAdminClaim({ userId: user.uid })
-         .then((res) => console.log('res' + res))
+         .then((res) => null)
          .catch((e) => {
             console.log(e);
          });

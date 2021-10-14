@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 export default function BestSellers() {
    const [user] = useAuthState(auth);
 
-   const { status, error, data } = useFetch('users/get_recentlyviewed');
+   const { status, error, data } = useFetch('users/get_recentlyviewed/');
 
    const { setRecentlyViewed, recentlyViewed } = useContext(Books);
    const isLoading = !Boolean(recentlyViewed.length);

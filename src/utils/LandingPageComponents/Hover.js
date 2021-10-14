@@ -10,53 +10,71 @@ import { Stack } from '@mui/material';
 import RatingFilter from 'pages/Landing/RatingFilter';
 import PriceFilter from 'pages/Landing/PriceFilter';
 
-export default function Hover({ genres, isloading, updateBookFilters }) {
-  return (
-    <PopupState
-      variant="popover"
-      popupId="demo-popup-popover"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexBasis: '300px',
-        flexShrink: 0,
-      }}
-    >
-      {(popupState) => (
-        <Box sx={{ marginRight: '24px !important' }}>
-          <Button
-            disabled={isloading}
-            {...bindTrigger(popupState)}
-            size="large"
-            color="inherit"
-            sx={{ paddingTop: '12px', paddingBottom: '12px' }}
-            variant="outlined"
-          >
-            <Typography variant="subtitle1">Filters</Typography>
-            <FilterList />
-          </Button>
-          <Popover
-            {...bindPopover(popupState)}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <Stack direction="column">
-              <RatingFilter updateBookFilters={updateBookFilters} />
-              <PriceFilter updateBookFilters={updateBookFilters} />
-              <GenreFilters
-                updateBookFilters={updateBookFilters}
-                genres={genres}
-              />
-            </Stack>
-          </Popover>
-        </Box>
-      )}
-    </PopupState>
-  );
+export default function Hover({
+   genres,
+   isloading,
+   updateBookFilters,
+   price,
+   bookFilters,
+   rating,
+}) {
+   return (
+      <PopupState
+         variant='popover'
+         popupId='demo-popup-popover'
+         style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexBasis: '300px',
+            flexShrink: 0,
+         }}
+      >
+         {(popupState) => (
+            <Box sx={{ marginRight: '24px !important' }}>
+               <Button
+                  disabled={isloading}
+                  {...bindTrigger(popupState)}
+                  size='large'
+                  color='inherit'
+                  sx={{ paddingTop: '12px', paddingBottom: '12px' }}
+                  variant='outlined'
+               >
+                  <Typography variant='subtitle1'>Filters</Typography>
+                  <FilterList />
+               </Button>
+               <Popover
+                  {...bindPopover(popupState)}
+                  anchorOrigin={{
+                     vertical: 'bottom',
+                     horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                     vertical: 'top',
+                     horizontal: 'right',
+                  }}
+               >
+                  <Stack direction='column'>
+                     <RatingFilter
+                        updateBookFilters={updateBookFilters}
+                        min={rating?.[0] || 0}
+                        max={rating?.[1] || 5}
+                        bookFilters={bookFilters}
+                     />
+                     <PriceFilter
+                        updateBookFilters={updateBookFilters}
+                        min={price?.[0] || 0}
+                        max={price?.[1] || 15}
+                        bookFilters={bookFilters}
+                     />
+                     <GenreFilters
+                        updateBookFilters={updateBookFilters}
+                        bookFilters={bookFilters}
+                        genres={genres}
+                     />
+                  </Stack>
+               </Popover>
+            </Box>
+         )}
+      </PopupState>
+   );
 }

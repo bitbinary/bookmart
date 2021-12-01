@@ -6,13 +6,14 @@ import SearchBar from 'utils/LandingPageComponents/SearchBar';
 import { Books } from 'context/Books';
 
 export default function BookListToolBar({ isLoading, genres, price, rating }) {
-   const { updateFilters } = useContext(Books);
+   const { updateFilters,allBooksFilters: {search, genres: genreFilters, orderBy, price: priceFilter} } = useContext(Books);
+
    const [bookFilters, setBookFilters] = useState({
-      price: null,
-      rating: null,
-      genres: [],
-      search: null,
-      orderBy: null,
+      price: null || priceFilter,
+      rating: null || rating,
+      genres: [] || genreFilters,
+      search: null || search,
+      orderBy: null || orderBy,
       ascending: null,
    });
    const updateBookFilters = (filter) => {
@@ -21,11 +22,13 @@ export default function BookListToolBar({ isLoading, genres, price, rating }) {
          ...filter,
       });
    };
+   const updatefilteringFilters = (filter) =>{
+      updateFilters(filter||bookFilters)
+   }
    return (
-      <Paper elevation={8}>
+      <Box component={Paper} elevation={8}>
          <Stack
             direction={{ xs: 'column', md: 'row' }}
-            bgcolor='#fdfdfd'
             sx={{ flexWrap: 'wrap' }}
             alignItems={{ xs: 'stretch', md: 'center' }}
             spacing={2}
@@ -34,6 +37,7 @@ export default function BookListToolBar({ isLoading, genres, price, rating }) {
                keyword={null}
                updateBookFilters={updateBookFilters}
                bookFilters={bookFilters}
+               updateFilters={updatefilteringFilters}
             />
             <Stack
                spacing={2}
@@ -45,6 +49,7 @@ export default function BookListToolBar({ isLoading, genres, price, rating }) {
                   updateBookFilters={updateBookFilters}
                   isloading={isLoading}
                   sx={{ xs: { flexGrow: 1 }, md: { flexGrow: 0 } }}
+                  updateFilters={updatefilteringFilters}
                />
                <Hover
                   bookFilters={bookFilters}
@@ -53,14 +58,10 @@ export default function BookListToolBar({ isLoading, genres, price, rating }) {
                   price={price}
                   rating={rating}
                   updateBookFilters={updateBookFilters}
+                  updateFilters={updatefilteringFilters}
                />
             </Stack>
          </Stack>
-         <Box textAlign='right'>
-            <Button size='large' onClick={() => updateFilters(bookFilters)}>
-               Apply Filters
-            </Button>
-         </Box>
-      </Paper>
+      </Box>
    );
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
-import Button from '@mui/material/Button';
 
 export default function CarouselCard() {
     return (

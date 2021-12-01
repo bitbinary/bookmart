@@ -26,7 +26,6 @@ function SetBooksValues() {
    };
 
    const updateFilters = (filter) => {
-      console.log(filter);
       const newFilter = {};
       Object.entries({ ...allBooksFilters, ...filter })?.map(
          ([filterKey, value], index) => {

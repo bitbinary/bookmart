@@ -3,9 +3,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Books } from '../../context/Books';
 
-export default function ControlledOpenSelect({ isLoading, updateBookFilters }) {
+export default function ControlledOpenSelect({ isLoading, updateBookFilters,updateFilters }) {
   const [sortBy, setSortBy] = React.useState('');
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => {
@@ -29,6 +28,7 @@ export default function ControlledOpenSelect({ isLoading, updateBookFilters }) {
     }
 
     updateBookFilters({ orderBy: orderBy, ascending: ascending });
+    updateFilters({ orderBy: orderBy, ascending: ascending })
   }, [sortBy]);
   const handleChange = (event) => {
     setSortBy(event.target.value);

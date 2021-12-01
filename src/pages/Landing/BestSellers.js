@@ -1,18 +1,19 @@
 import { Books } from '../../context/Books';
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, {  useEffect, useContext, useRef } from 'react'
 import BookCarousel from './BookCarousel';
-import { useFetch } from '../../tools/hooks/useFetch';
+import { useFetch } from 'use-http';
 
 export default function BestSellers() {
-    const { status, error, data } = useFetch('books/topsellers');
+    const {  data } = useFetch('books/topsellers',{},[]);
     const { setTopSellers, topSellers } = useContext(Books)
+    const setTopSellersRef = useRef(setTopSellers)
     const isLoading = !Boolean(topSellers.length)
     useEffect(() => {
         if (data?.books) {
-            setTopSellers(data?.books)
+            setTopSellersRef.current(data?.books)
         }
 
-    }, [data])
+    }, [data,setTopSellersRef])
     return (
         <BookCarousel isLoading={isLoading} carouselData={data?.books || topSellers}
             carouselTitle={'BestSellers'} />

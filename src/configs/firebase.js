@@ -1,14 +1,14 @@
-import * as firebase from 'firebase/app';
-import * as firebaseAuth from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
-import { toast } from 'react-toastify';
+import * as firebase from "firebase/app";
+import * as firebaseAuth from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 import {
   getFunctions,
   httpsCallable,
   connectFunctionsEmulator,
-} from 'firebase/functions';
-import { bottomStandard } from './toastConfigs';
+} from "firebase/functions";
+import { bottomStandard } from "./toastConfigs";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -23,7 +23,7 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = firebaseAuth.getAuth();
 const db = getFirestore(app);
 const functions = getFunctions(app);
-connectFunctionsEmulator(functions, 'localhost', 5001);
+connectFunctionsEmulator(functions, "localhost", 5001);
 
 const googleProvider = new firebaseAuth.GoogleAuthProvider();
 
@@ -71,21 +71,21 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     setUserData({
       displayName: name,
       email: user.email,
-      role: 'user',
+      role: "user",
       uid: user.uid,
       metadata: { creationTime: user.metadata.creationTime },
     });
     refreshToken();
-    toast(`Welcome ${user.displayName}`, bottomStandard);
+    toast(`Welcome ${name}`, bottomStandard);
     firebaseAuth.sendEmailVerification(user).then(() => {
       toast.info(`Email Verification Link sent`, bottomStandard);
     });
   } catch (err) {
-    if (err.code === 'auth/invalid-email') {
+    if (err.code === "auth/invalid-email") {
       toast.error(`e-mail invalid`, bottomStandard);
-    } else if (err.code === 'auth/weak-password') {
+    } else if (err.code === "auth/weak-password") {
       toast.error(`Password should be at least 6 characters`, bottomStandard);
-    } else if (err.code === 'auth/email-already-in-use') {
+    } else if (err.code === "auth/email-already-in-use") {
       toast.error(`email-already-in-use`, bottomStandard);
     }
     console.log(err.code);
@@ -104,21 +104,21 @@ const sendPasswordResetEmail = async (email) => {
     // );
   }
 };
-const refreshToken = () => {
+const refreshToken = (forceRefresh = false) => {
   const user = auth?.currentUser;
   if (user) {
-    user.getIdToken().then((token) => {
-      localStorage.setItem('token', token);
+    user.getIdToken(forceRefresh).then((token) => {
+      localStorage.setItem("token", token);
     });
   }
 };
 const logout = () => {
-  toast(`See you soon`, bottomStandard);
+  localStorage.removeItem("token");
+  localStorage.removeItem("userClaim");
   firebaseAuth
     .signOut(auth)
     .then(() => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userClaim');
+      toast(`See you soon`, bottomStandard);
     })
     .catch((e) => console.log(e));
 };
@@ -135,7 +135,7 @@ const setUserData = async (user, forceUpdate = false) => {
       {
         username: user.displayName,
         email: user.email,
-        role: 'user',
+        role: "user",
         uid: user.uid,
         createdAt: user.metadata.creationTime,
       },
@@ -149,7 +149,7 @@ const getUserData = async (userId) => {
   if (userdoc.exists()) {
     return userdoc.data();
   } else {
-    return { error: 'Document data does not exist:' };
+    return { error: "Document data does not exist:" };
   }
 };
 const getUserClaims = async (forceUpdate) => {
@@ -160,14 +160,12 @@ const getUserClaims = async (forceUpdate) => {
 
 const updateProfileDetails = (details) => {
   const user = auth?.currentUser;
-  console.log(details);
   return firebaseAuth.updateProfile(user, {
     ...details,
   });
 };
 const updateEmailDetails = (details) => {
   const user = auth?.currentUser;
-  console.log(details);
   const { email } = details;
   return firebaseAuth.updateEmail(user, email);
 };
@@ -181,17 +179,18 @@ const adminRegisterWithEmailAndPassword = async (name, email, password) => {
     );
     const user = res.user;
 
-    const setAdminClaim = httpsCallable(functions, 'addAdmin');
+    const setAdminClaim = httpsCallable(functions, "addAdmin");
     setAdminClaim({ userId: user.uid })
-      .then((res) => console.log('res' + res))
+      .then((res) => {
+        console.log(res)
+        refreshToken(true);
+      })
       .catch((e) => {
         console.log(e);
       });
     firebaseAuth.updateProfile(user, {
       displayName: name,
     });
-    refreshToken();
-    toast(`Welcome ${name}`, bottomStandard);
     const userDocRef = doc(db, `Users/${user.uid}`);
     const userdoc = await getDoc(userDocRef);
 
@@ -203,7 +202,7 @@ const adminRegisterWithEmailAndPassword = async (name, email, password) => {
         {
           username: user.displayName,
           email: user.email,
-          role: 'admin',
+          role: "admin",
           uid: user.uid,
           createdAt: user.metadata.creationTime,
         },

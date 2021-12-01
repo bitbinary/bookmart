@@ -1,30 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
 import Stack from '@mui/material/Stack';
-import { CardContent, CardActionArea, Typography, Rating } from '@mui/material';
+import { CardContent, Typography, Rating } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import Image from 'utils/shared/Image';
+import { Box } from '@mui/system';
 
 export default function BookListCard({ cardData }) {
    const {
       isbn,
       title,
       author,
-      publicationyear,
       bookimage,
-      numpages,
       rating,
-      genre,
-      bookurl,
-      language,
-      synopsis,
       price,
    } = cardData;
 
    return (
-      <Stack direction='column'>
-         <Card key={isbn} className='book' sx={{ flexGrow: 1, width: '200px' }}>
+      <Stack direction='column' gap={1}>
+         <Card elevation={3} component={Box} key={isbn} className='book' sx={{ flexGrow: 1, width: '200px' }}>
             <CardContent
                sx={{
                   padding: '0px',
@@ -33,13 +28,12 @@ export default function BookListCard({ cardData }) {
                   flexDirection: 'column',
                }}
             >
-               <CardMedia
+               <Image
                   key={isbn}
                   className='bookFront'
                   component='img'
-                  sx={{ height: '100%', objectFit: 'cover' }}
-                  image={bookimage}
-                  alt='Live from space album cover'
+                  imagePath={bookimage}
+                  alt={title}
                />
             </CardContent>
             <CardContent
@@ -84,8 +78,8 @@ export default function BookListCard({ cardData }) {
             precision={0.5}
             readOnly
          />
-         <Typography variant='body1'>
-            Price:{' '}
+         <Typography variant='subtitle1'>
+            Price:
             {new Intl.NumberFormat('en-AU', {
                style: 'currency',
                currency: 'AUD',

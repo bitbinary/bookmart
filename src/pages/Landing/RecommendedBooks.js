@@ -1,11 +1,10 @@
 import { Books } from '../../context/Books';
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, {useEffect, useContext } from 'react'
 import BookCarousel from './BookCarousel';
-import { getRequest } from '../../tools/apiHelper';
-import { useFetch } from '../../tools/hooks/useFetch';
+import { useFetch } from 'use-http';
 
-export default function BestSellers() {
-    const { status, error, data } = useFetch('books/topsellers');
+export default function Recommended() {
+    const { data } = useFetch('recommendations',{},[]);
     const { setRecommended, recommended } = useContext(Books)
     const isLoading = !Boolean(recommended.length)
 

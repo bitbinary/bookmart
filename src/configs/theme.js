@@ -1,52 +1,35 @@
-import { createTheme } from '@mui/material';
-import { colors } from './colors';
-// const colors = {
-//   lightShade: '#80BFAA',
-//   darkShade: '#287075',
-//   highlight: '#F7D854',
-//   shadow: '#1B4252',
-//   success: '#00D909',
-//   danger: '#FF3000',
-//   primary: '#0085FF',
-// };
-const { primary, secondary, info, warning, success, error } = colors;
+import { createTheme } from "@mui/material";
 
 export const lightTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
+    
   },
 });
 export const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: primary,
+      main: '#2c48b0',
     },
     secondary: {
-      main: secondary,
+      main: '#c3b975',
+      contrastText: '#ffffff',
     },
-    info: {
-      main: info,
-    },
-    warning: {
-      main: warning,
-    },
-    success: {
-      main: success,
-    },
-    error: {
-      main: error,
-    },
+    background:{
+      default:'#000000',
+      paper:'#070b16'
+    }
   },
-  components: {
-    MuiPaper: {
-      styleOverrides: {
-        // Name of the slot
-        root: {
-          // Some CSS
-          flexGrow: '1',
-        },
-      },
-    },
-  },
+  components:{
+    MuiAppBar:{
+      styleOverrides:{
+        root:{
+          backgroundColor:'#11225e'
+        }
+      }
+    }
+  }
+  
+ 
 });

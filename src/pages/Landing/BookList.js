@@ -1,16 +1,9 @@
-import React, { useContext } from 'react';
 import { Box } from '@mui/system';
-import Typography from '@mui/material/Typography';
 
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import BookListCard from './BookListCard';
 import BookListCardSkeleton from './BookListCardSkeleton';
-import SearchBar from '../../utils/LandingPageComponents/SearchBar';
-import Hover from '../../utils/LandingPageComponents/Hover';
-import Sorter from '../../utils/LandingPageComponents/Sorter';
-import { Books } from '../../context/Books';
+import { Paper } from '@mui/material';
 
 const BookList = ({
    books = [],
@@ -18,17 +11,14 @@ const BookList = ({
    bookListTitle = 'carouselTitle',
    isLoading,
 }) => {
-   const { updateFilters, allBooksFilters } = useContext(Books);
-   const setSearchValue = (value) => {
-      updateFilters({ search: value });
-   };
+
    return (
       <Box>
          {!isLoading ? (
             <Grid container justifyContent='center' alignContent='flex-start'>
                {books?.map((book) => {
                   return (
-                     <Grid m={4} sx={{ display: 'flex' }} item key={book.isbn}>
+                     <Grid  p={1} m={2} sx={{ display: 'flex' }} item key={book.isbn}>
                         <BookListCard key={book.isbn} cardData={book} />
                      </Grid>
                   );

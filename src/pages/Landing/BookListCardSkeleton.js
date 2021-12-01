@@ -1,9 +1,6 @@
 import React from 'react'
 import Card from '@mui/material/Card';
 import Skeleton from '@mui/material/Skeleton';
-import { CardActionArea } from '@mui/material';
-import Button from '@mui/material/Button';
-import CardContent from '@mui/material/CardContent';
 export default function BookListCardSkeleton({ cardData }) {
     return (
         <Card

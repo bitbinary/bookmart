@@ -56,8 +56,8 @@ export const useFetch = (url, params, method = 'GET', shouldCache = false) => {
     if (!url) return;
     const fetchData = async () => {
       dispatch({ type: 'FETCHING' });
-      if (cache.current[url] && shouldCache) {
-        const data = cache.current[url];
+      if (cache.current[JSON.stringify(url+params)] && shouldCache) {
+        const data = cache.current[JSON.stringify(url+params)];
         dispatch({ type: 'FETCHED', payload: data });
       } else {
         try {
@@ -65,7 +65,7 @@ export const useFetch = (url, params, method = 'GET', shouldCache = false) => {
             cancelToken: ourRequest.token, // <-- 2nd step
           });
           const data = await response.data;
-          cache.current[url] = data;
+          cache.current[JSON.stringify(url+params)] = data;
           if (cancelRequest && shouldCache) return;
           dispatch({ type: 'FETCHED', payload: data });
         } catch (error) {

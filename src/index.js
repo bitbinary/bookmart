@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { lightTheme, darkTheme } from './configs/theme';
-import { ThemeContext } from '@mui/styled-engine';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeContext.Provider value={lightTheme}>
-      <App />
-    </ThemeContext.Provider>
+      <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
